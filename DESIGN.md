@@ -30,12 +30,25 @@ colors:
   action-ink: "#0c2016"
   link: "#5b8cff"
   link-hover: "#89adff"
-  empty-photo-1: "#2f3f66"
-  empty-photo-1-ink: "#c2d4fb"
-  empty-photo-2: "#245049"
-  empty-photo-2-ink: "#a7e6df"
-  empty-video: "#393357"
-  empty-video-ink: "#cabff5"
+  header-grad-a: "#241c34"
+  header-grad-b: "#1a1c2c"
+  header-grad-c: "#182530"
+  action-grad-top: "#69dd97"
+  action-grad-bottom: "#4fc47f"
+  action-grad-top-hover: "#7ee9a8"
+  action-grad-bottom-hover: "#5fd08c"
+  empty-photo-1: "#4a5ea6"
+  empty-photo-1-mid: "#2b3968"
+  empty-photo-1-deep: "#1f2a52"
+  empty-photo-1-ink: "#c9d8fb"
+  empty-photo-2: "#2f7360"
+  empty-photo-2-mid: "#1f4b41"
+  empty-photo-2-deep: "#1b4039"
+  empty-photo-2-ink: "#aae9e1"
+  empty-video: "#6c3c88"
+  empty-video-mid: "#41265f"
+  empty-video-deep: "#2c2047"
+  empty-video-ink: "#d5c9f7"
   rec-stop-border: "#5a3550"
   rec-stop-ink: "#f6a6d0"
   dashed-border: "#3a3a4f"
@@ -192,7 +205,7 @@ of X. The deck's palette, Bricolage and rounded corners never reach it.
 - Warm charcoal-indigo ground (`#16161f` / `#1c1c28`), not near-black.
 - Bricolage Grotesque throughout the chrome; Chirp only inside the card.
 - One action colour — green `#5bd08a` — for the Export button, nowhere else.
-- Rounded, flat: 10–14px radii, tinted fills and 1px borders, no chrome shadow.
+- Rounded, glossy-flat: 10–14px radii, hue-tinted gradient fills + 1px borders, one soft coloured glow on active/enabled accent controls.
 - Mobile collapses the rail to one panel plus a bottom tab bar of six hue-tinted icons — options never far apart.
 
 ## Colors
@@ -225,7 +238,7 @@ Each hue appears as: **fill** `hue @ ~8%` (`#hue14`), **border** `hue @ ~24%` (`
 - **Link** (`#5b8cff`, hover `#89adff`): the Identidade blue doubles as the link colour.
 
 ### Empty-state grounds (stage placeholders, editor-only)
-- **Empty Photo 1** `#2f3f66` (word `#c2d4fb`), **Empty Photo 2** `#245049` (`#a7e6df`), **Empty Video** `#393357` (`#cabff5`): the "FOTO 1 / FOTO 2 / VÍDEO" blocks — a mid tint of the media family (light enough to read clearly against the dark stage on a phone), the word in a soft bright tint. Never drawn into an export.
+- **Empty Photo 1 / 2 / Video** blocks — the "FOTO 1 / FOTO 2 / VÍDEO" placeholders carry a **3-stop radial gradient** in the media family's hue (`#4a5ea6→#2b3968→#1f2a52` blue · `#2f7360→#1f4b41→#1b4039` green · `#6c3c88→#41265f→#2c2047` violet), an overlaid `~1/48` diagonal light-streak pattern (`rgba(255,255,255,.045–.055)`), and — on FOTO 2 — a faint `15px` white-dot halftone. The word sits in a soft bright tint of the hue (`#c9d8fb` / `#aae9e1` / `#d5c9f7`) with a `0 2px 18px rgba(0,0,0,.35)` shadow for legibility. Editor-only; never drawn into an export.
 
 ### Artifact (the quote card — fixed, never restyled by the deck)
 - **Card White** `#ffffff`, **X Ink** `#0f1419` (name, headline), **X Secondary Grey** `#536471` (@handle), **X Blue** `#1d9bf0` (verified seal, on-stage drag dots, and the four `3px`-radius card-corner resize nubs), **Monogram Oxblood** `#5b1113` (avatar fallback), **Stage Deep Teal** `#0d2733` (canvas fill, matched by the PNG/MP4 export path).
@@ -276,14 +289,14 @@ Each hue appears as: **fill** `hue @ ~8%` (`#hue14`), **border** `hue @ ~24%` (`
 
 **The stage.** Composition rendered at real 1080×1920 then `transform: scale(s)`, `s = min((w−8)/1080, (h−headerH−8)/1920)` floored at `0.05`; hit targets and dots divided by `s` to stay constant on screen. The stage, the scale wrapper and the composition all carry `touch-action: none` so a finger drag on the preview pans/pinches the media instead of scrolling the page. The wrapper shows a `0 0 0 1px rgba(255,255,255,.06)` hairline so the 9:16 frame edge reads against the dark ground.
 
-**Header.** Minimal, `sticky`, `8px 14px`: a `7px` green ready-dot, the wordmark **"Editor Manaus na Depressão"** at `12px / 600` in Ink Secondary (deliberately quiet, truncates with ellipsis), then a right-aligned control cluster — **Voltar / Refazer / Play-Pause**, each a `32px` icon button (`9px` radius, `1px #33334a` border, transparent fill). Undo/Redo dim to `#45455f` when the history stack has no move in that direction; Play appears only when a video is loaded and swaps between a pause bars glyph and a play triangle. No dimension meta, no company-logo slot, no size toggle in the header.
+**Header.** Minimal, `sticky`, `8px 14px`, on a faint `115deg` gradient (`#241c34 → #1a1c2c → #182530`). Left to right: the **`MND` wordmark** (`15px / 800`, violet→pink `#a878ff→#f072b6` gradient-clipped text) + a small amber lightning glyph; a `7px` green ready-dot with a soft glow; the wordmark **"Editor Manaus na Depressão"** at `12px / 600` (`#c4c4cf`, `white-space: nowrap` — it never breaks to two lines, ellipsis if truly cramped); then a right-aligned cluster — **Voltar / Refazer / Play-Pause**, `32px` icon buttons (`10px` radius). Enabled Undo/Redo carry a `#5b8cff66` border + soft blue glow; disabled dim to `#45455f`. Play (video only) has a green-tinted glow. No dimension meta, no company-logo slot, no size toggle.
 
 ### Named Rules
 **The Panel-and-Stage Rule.** Side by side, the rail is exactly `324px` and never resizes. Portrait below `1024px` stacks (stage first). Mobile replaces the stack with one panel + a bottom tab bar; landscape keeps the side-by-side rail.
 
 ## Elevation & Depth
 
-The chrome is **flat**. Depth is warm tonal stepping (`#16161f` ground → `#1c1c28` rail → tinted panel → `#22222e` control) plus 1px borders — hue-tinted on panels, `#33334a` on controls. No `box-shadow` on any chrome surface.
+The chrome is **glossy-flat**. Base depth is warm tonal stepping (`#16161f` ground → `#1c1c28` rail → tinted panel → `#22222e` control) plus 1px borders, and every panel/tab/chip adds a shallow **hue gradient** (`{hue}1a→{hue}0f`) with an `inset 0 1px 0 {hue}22–44` top highlight. On top of that, an element that is **active or enabled** gets exactly one soft coloured glow (`0 4–22px {hue}22–3a`); resting plain surfaces get none.
 
 Two soft glows and one card shadow are the only depth effects:
 - **Ready dot** — the header status dot carries `box-shadow: 0 0 0 4px rgba(91,208,138,.18)`: a soft green halo, an "on" tally.
@@ -291,7 +304,7 @@ Two soft glows and one card shadow are the only depth effects:
 - **Card lift** (`0 2px 10px rgba(0,0,0,.18)`) and the blue drag-dot halo live inside the frame, unchanged.
 
 ### Named Rule
-**The Flat Deck Rule.** Deck panels never cast a shadow — their tinted fill and border are the whole separation. Shadow lives only inside the 1080×1920 frame.
+**The Lit Deck Rule.** The finish is glossy-flat: panels, tabs, chips and the primary/undo/redo buttons carry a **shallow top-to-bottom gradient in their own hue** plus an `inset 0 1px 0` highlight, and *active / enabled* accent controls add one **soft coloured glow** (`0 4–22px {hue}22–3a`). Plain resting surfaces still take no heavy drop shadow, and the glow is reserved for the accent colour of an element that is on or actionable — never scattered decoration. Heavier shadow still lives only inside the 1080×1920 frame.
 
 ## Shapes
 
@@ -352,5 +365,5 @@ Follows the owner's pinned X screenshot, not the deck. Card White surface, **squ
 - **Don't** solid-fill any control except Export; secondary actions are panel-surface or ghost.
 - **Don't** let the deck's palette, Bricolage, or the 10–14px radii touch the quote card, or change the three export paths.
 - **Don't** use pure `#000` or `#fff` in the chrome; the ground is `#16161f`, the text ceiling `#ececf1`. `#ffffff` is the card only.
-- **Don't** cast a shadow on a deck panel or any chrome surface.
+- **Don't** add glow to a resting/idle surface — the coloured glow is only for an element that is active or actionable, one glow per element, in that element's own hue.
 - **Don't** put display-size type or a weight above `700` in the chrome; personality is the face and the hue.

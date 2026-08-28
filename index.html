@@ -109,7 +109,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#77dda2"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="#5bd08a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.8v8.4M4.6 6l3.4-3.4L11.4 6M2.4 11v3h11.2v-3"></path></svg>Saída</div>
         <div style="display:flex;gap:8px">
           <button onClick="{{ clearAll }}" style="flex:1;padding:11px 14px;border-radius:12px;border:1px solid #33334a;background:transparent;color:#a3a3b2;font-size:13px;cursor:pointer" style-hover="color:#ececf1;border-color:#45455f">Limpar</button>
-          <button onClick="{{ exportPng }}" style="flex:1;padding:11px 14px;border-radius:12px;border:none;background:#5bd08a;color:#0c2016;font-size:13px;font-weight:700;cursor:pointer" style-hover="background:#74e0a1">{{ exportLabel }}</button>
+          <button onClick="{{ exportPng }}" style="flex:1;padding:11px 14px;border-radius:12px;border:none;background:linear-gradient(180deg,#69dd97,#4fc47f);color:#0c2016;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 6px 22px rgba(91,208,138,.34),inset 0 1px 0 rgba(255,255,255,.35)" style-hover="background:linear-gradient(180deg,#7ee9a8,#5fd08c)">{{ exportLabel }}</button>
         </div>
         <sc-if value="{{ recording }}">
           <button onClick="{{ stopRec }}" style="width:100%;margin-top:8px;padding:10px 14px;border-radius:11px;border:1px solid #5a3550;background:rgba(240,114,182,.14);color:#f6a6d0;font-size:12px;cursor:pointer">Parar gravação e salvar</button>
@@ -136,9 +136,10 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       </div>
       </sc-if>
     </aside><div ref="{{ stageRef }}" style="{{ stageStyle }}">
-      <header style="flex:none;position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:9px;padding:8px 14px;border-bottom:1px solid #2e2e3d;background:#1c1c28">
-    <div style="width:7px;height:7px;border-radius:50%;background:#5bd08a;box-shadow:0 0 0 3px rgba(91,208,138,.16);flex:none"></div>
-    <h1 style="margin:0;font-size:12px;font-weight:600;letter-spacing:.01em;color:#a3a3b2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">Editor Manaus na Depressão</h1>
+      <header style="flex:none;position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid #2e2e3d;background:linear-gradient(115deg,#241c34 0%,#1a1c2c 46%,#182530 100%)">
+    <span style="display:flex;align-items:center;gap:1px;flex:none"><span style="font-size:15px;font-weight:800;letter-spacing:-.02em;background:linear-gradient(92deg,#a878ff,#f072b6);-webkit-background-clip:text;background-clip:text;color:transparent">MND</span><svg viewBox="0 0 24 24" width="12" height="12" style="flex:none"><path d="M13 2 4 14h6l-1 8 9-12h-6z" fill="#f0a94a"></path></svg></span>
+    <div style="width:7px;height:7px;border-radius:50%;background:#5bd08a;box-shadow:0 0 8px rgba(91,208,138,.6),0 0 0 3px rgba(91,208,138,.16);flex:none"></div>
+    <h1 style="margin:0;font-size:12px;font-weight:600;letter-spacing:.01em;color:#c4c4cf;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">Editor Manaus na Depressão</h1>
     <div style="margin-left:auto;display:flex;align-items:center;gap:5px;flex:none">
       <button onClick="{{ undo }}" title="Voltar" style="{{ undoBtnStyle }}"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3L2.5 6.5 6 10M2.5 6.5H10a3.5 3.5 0 010 7H6"></path></svg></button>
       <button onClick="{{ redo }}" title="Refazer" style="{{ redoBtnStyle }}"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3l3.5 3.5L10 10M13.5 6.5H6a3.5 3.5 0 000 7h4"></path></svg></button>
@@ -158,7 +159,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
                 <img ref="{{ i1El }}" style="{{ img1Style }}" alt="">
               </sc-if>
               <sc-if value="{{ noImg1 }}" hint-placeholder-val="{{ true }}">
-                <div onClick="{{ pick1 }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#2f3f66;color:#c2d4fb;font-size:56px;font-weight:700;letter-spacing:.02em;cursor:pointer">FOTO 1</div>
+                <div onClick="{{ pick1 }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(122deg,transparent 0 48px,rgba(255,255,255,.05) 48px 51px),radial-gradient(130% 95% at 22% 14%,#4a5ea6 0%,#2b3968 46%,#1f2a52 100%);color:#c9d8fb;font-size:56px;font-weight:700;letter-spacing:.02em;cursor:pointer;text-shadow:0 2px 18px rgba(0,0,0,.35)">FOTO 1</div>
               </sc-if>
             </div>
             <div data-handle="p2" ref="{{ p2Ref }}" style="{{ pane2Style }}">
@@ -166,7 +167,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
                 <img ref="{{ i2El }}" style="{{ img2Style }}" alt="">
               </sc-if>
               <sc-if value="{{ noImg2 }}" hint-placeholder-val="{{ true }}">
-                <div onClick="{{ pick2 }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#245049;color:#a7e6df;font-size:56px;font-weight:700;letter-spacing:.02em;cursor:pointer">FOTO 2</div>
+                <div onClick="{{ pick2 }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 1px 1px,rgba(255,255,255,.10) 1px,transparent 1.7px) 0 0/15px 15px,repeating-linear-gradient(122deg,transparent 0 48px,rgba(255,255,255,.04) 48px 51px),radial-gradient(130% 95% at 80% 18%,#2f7360 0%,#1f4b41 50%,#1b4039 100%);color:#aae9e1;font-size:56px;font-weight:700;letter-spacing:.02em;cursor:pointer;text-shadow:0 2px 18px rgba(0,0,0,.35)">FOTO 2</div>
               </sc-if>
             </div>
             <div data-handle="split" ref="{{ divRef }}" style="{{ handleStyle }}">
@@ -189,7 +190,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               <div data-handle="wm" ref="{{ wmTxtEl }}" style="{{ wmTextStyle }}">{{ wmText }}</div>
             </sc-if>
             <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
-              <div onClick="{{ pickVideo }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#393357;color:#cabff5;font-size:64px;font-weight:700;letter-spacing:.02em;cursor:pointer">VÍDEO</div>
+              <div onClick="{{ pickVideo }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(90% 60% at 82% 88%,rgba(240,114,182,.28),transparent 62%),repeating-linear-gradient(122deg,transparent 0 54px,rgba(255,255,255,.055) 54px 57px),radial-gradient(135% 100% at 28% 22%,#6c3c88 0%,#41265f 46%,#2c2047 100%);color:#d5c9f7;font-size:64px;font-weight:700;letter-spacing:.02em;cursor:pointer;text-shadow:0 2px 20px rgba(0,0,0,.4)">VÍDEO</div>
             </sc-if>
           </div>
 
@@ -322,17 +323,21 @@ class Component extends DCLogic {
       flex: 1, padding: touch ? '12px 8px' : '10px 8px', minHeight: touch ? '44px' : 'auto',
       borderRadius: '10px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
       border: '1px solid ' + (on ? hue : '#33334a'),
-      background: on ? hue + '26' : '#22222e',
-      color: on ? '#ececf1' : '#a3a3b2'
+      background: on ? 'linear-gradient(180deg,' + hue + '33,' + hue + '1f)' : '#22222e',
+      color: on ? '#ececf1' : '#a3a3b2',
+      boxShadow: on ? '0 4px 14px ' + hue + '33, inset 0 1px 0 ' + hue + '3a' : 'none',
+      transition: 'background .14s, border-color .14s, box-shadow .14s'
     };
   }
   deckPanel(hue) {
     var m = this.state.mode === 'mobile';
     return {
-      background: hue + '14', border: '1px solid ' + hue + '3d',
+      background: 'linear-gradient(180deg,' + hue + '1a,' + hue + '0f)',
+      border: '1px solid ' + hue + '3d',
       borderRadius: m ? '12px' : '14px',
       padding: m ? '9px 11px 11px' : '14px',
-      marginBottom: m ? '7px' : '10px'
+      marginBottom: m ? '7px' : '10px',
+      boxShadow: 'inset 0 1px 0 ' + hue + '26'
     };
   }
   deckTabBtn(hue, active) {
@@ -346,11 +351,12 @@ class Component extends DCLogic {
   }
   deckTabChip(hue, active) {
     return {
-      flex: 'none', width: '42px', height: '34px', borderRadius: '11px',
+      flex: 'none', width: '42px', height: '34px', borderRadius: '12px',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: active ? hue + '2e' : '#22222e',
-      border: '1px solid ' + (active ? hue + '55' : '#2c2c3b'),
-      transition: 'background .12s, border-color .12s'
+      background: active ? 'linear-gradient(180deg,' + hue + '3a,' + hue + '22)' : '#22222e',
+      border: '1px solid ' + (active ? hue + '66' : hue + '2b'),
+      boxShadow: active ? '0 6px 18px ' + hue + '3a, inset 0 1px 0 ' + hue + '44' : 'inset 0 1px 0 rgba(255,255,255,.03)',
+      transition: 'background .14s, border-color .14s, box-shadow .14s'
     };
   }
   photoH() {
@@ -984,12 +990,16 @@ class Component extends DCLogic {
       redo: function () { self.applyHistory(1); },
       undoBtnStyle: {
         flex: 'none', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        borderRadius: '10px', border: '1px solid #33334a', background: 'transparent',
+        borderRadius: '10px', border: '1px solid ' + (cu ? '#5b8cff66' : '#33334a'),
+        background: cu ? 'linear-gradient(180deg,#5b8cff1f,#5b8cff10)' : 'transparent',
+        boxShadow: cu ? '0 0 14px rgba(91,140,255,.22), inset 0 1px 0 rgba(255,255,255,.05)' : 'none',
         color: cu ? '#ececf1' : '#45455f', cursor: cu ? 'pointer' : 'default'
       },
       redoBtnStyle: {
         flex: 'none', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        borderRadius: '10px', border: '1px solid #33334a', background: 'transparent',
+        borderRadius: '10px', border: '1px solid ' + (cr ? '#5b8cff66' : '#33334a'),
+        background: cr ? 'linear-gradient(180deg,#5b8cff1f,#5b8cff10)' : 'transparent',
+        boxShadow: cr ? '0 0 14px rgba(91,140,255,.22), inset 0 1px 0 rgba(255,255,255,.05)' : 'none',
         color: cr ? '#ececf1' : '#45455f', cursor: cr ? 'pointer' : 'default'
       },
       playing: st.playing !== false, paused: st.playing === false,
@@ -1000,7 +1010,10 @@ class Component extends DCLogic {
       },
       playBtnStyle: {
         flex: 'none', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        borderRadius: '10px', border: '1px solid #33334a', background: 'transparent', color: '#ececf1', cursor: 'pointer'
+        borderRadius: '10px', border: '1px solid #5bd08a55',
+        background: 'linear-gradient(180deg,#5bd08a1f,#5bd08a10)',
+        boxShadow: '0 0 14px rgba(91,208,138,.22), inset 0 1px 0 rgba(255,255,255,.05)',
+        color: '#ececf1', cursor: 'pointer'
       },
       mainStyle: {
         flex: 1, minHeight: 0, display: 'flex',
@@ -1175,6 +1188,21 @@ class Component extends DCLogic {
       if (vs) {
         var at = vs.getAudioTracks();
         for (var i = 0; i < at.length; i++) stream.addTrack(at[i]);
+      } else {
+        // iOS/Safari: <video> não tem captureStream — puxa o áudio via Web Audio para o export sair com som
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) {
+          if (!self._actx) self._actx = new AC();
+          var actx = self._actx;
+          if (actx.state === 'suspended' && actx.resume) actx.resume();
+          if (!self._audioSrc) self._audioSrc = actx.createMediaElementSource(v);
+          self._audioDest = actx.createMediaStreamDestination();
+          try { self._audioSrc.disconnect(); } catch (e2) {}
+          self._audioSrc.connect(self._audioDest);
+          self._audioWasMuted = v.muted; v.muted = false;
+          var atr = self._audioDest.stream.getAudioTracks();
+          for (var j = 0; j < atr.length; j++) stream.addTrack(atr[j]);
+        }
       }
     } catch (e) {}
     var rec;
@@ -1182,7 +1210,12 @@ class Component extends DCLogic {
     catch (e) { alert('Não foi possível iniciar a gravação: ' + e.message); return; }
     var chunks = [];
     rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+    var restoreAudio = function () {
+      if (self._audioSrc) { try { self._audioSrc.disconnect(); } catch (e) {} }
+      if (typeof self._audioWasMuted === 'boolean') { v.muted = self._audioWasMuted; self._audioWasMuted = undefined; }
+    };
     rec.onstop = function () {
+      restoreAudio();
       var blob = new Blob(chunks, { type: rec.mimeType || 'video/mp4' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -1216,6 +1249,7 @@ class Component extends DCLogic {
     });
     this._recStop = function () {
       if (rec.state !== 'inactive') rec.stop();
+      restoreAudio();
       v.loop = true;
       self.setState({ recording: false });
     };
