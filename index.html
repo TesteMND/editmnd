@@ -285,9 +285,10 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <input ref="{{ fcRef }}" type="file" accept="image/*" onChange="{{ onFileCompany }}" style="display:none">
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;alturaFotos&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:34,&quot;min&quot;:20,&quot;max&quot;:50,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Composição&quot;},&quot;larguraCaixa&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:800,&quot;min&quot;:620,&quot;max&quot;:1020,&quot;step&quot;:10,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Composição&quot;},&quot;tamanhoTitulo&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:34,&quot;min&quot;:26,&quot;max&quot;:48,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Composição&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;alturaFotos&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:34,&quot;min&quot;:20,&quot;max&quot;:50,&quot;step&quot;:1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Composição&quot;},&quot;larguraCaixa&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:800,&quot;min&quot;:620,&quot;max&quot;:1020,&quot;step&quot;:10,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Composição&quot;},&quot;tamanhoTitulo&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:40,&quot;min&quot;:26,&quot;max&quot;:52,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Composição&quot;}}">
 class Component extends DCLogic {
   static FONT = '"Chirp","TwitterChirp","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif';
+  static EMOJI_FB = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
 
   // Fontes disponíveis para o texto da frase. Cada arquivo está embutido no
   // <style> do topo como @font-face (base64). Para adicionar outra:
@@ -406,6 +407,14 @@ class Component extends DCLogic {
     }
     return this._emByChar;
   }
+  emojiCharByU(u) {
+    if (!this._emByU) {
+      this._emByU = {};
+      var l = this.emojiAll();
+      for (var i = 0; i < l.length; i++) this._emByU[l[i].u] = l[i].c;
+    }
+    return this._emByU[u] || '';
+  }
   emojiRe() {
     if (this._emRe === undefined) {
       var chars = this.emojiAll().map(function (e) { return e.c; })
@@ -447,6 +456,7 @@ class Component extends DCLogic {
     (us || []).forEach(function (u) {
       if (self._emojiImgs[u]) return;
       var im = new Image();
+      im.crossOrigin = 'anonymous';
       self._emojiImgs[u] = im;
       im.onload = function () { self.setState({ _et: (self.state._et || 0) + 1 }); };
       im.src = './emoji/' + u + '.png';
@@ -461,6 +471,7 @@ class Component extends DCLogic {
       if (im && im.complete && im.naturalWidth) return;
       pend.push(new Promise(function (res) {
         var x = new Image();
+        x.crossOrigin = 'anonymous';
         x.onload = x.onerror = function () { self._emojiImgs[u] = x; res(); };
         x.src = './emoji/' + u + '.png';
       }));
@@ -577,7 +588,7 @@ class Component extends DCLogic {
     if (typeof w !== 'number') { var p = this.props.larguraCaixa; w = typeof p === 'number' ? p : 800; }
     return w;
   }
-  titleFs() { var p = this.props.tamanhoTitulo; return typeof p === 'number' ? p : 34; }
+  titleFs() { var p = this.props.tamanhoTitulo; return typeof p === 'number' ? p : 40; }
   titleFontDef() {
     var id = this.state.titleFont || 'regular', list = Component.TITLE_FONTS;
     for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
@@ -1405,7 +1416,7 @@ class Component extends DCLogic {
         boxShadow: '0 2px 10px rgba(0,0,0,.18)'
       },
       titleStyle: {
-        marginTop: '10px', fontSize: fs + 'px', lineHeight: 1.35,
+        marginTop: '28px', fontSize: fs + 'px', lineHeight: 1.35,
         fontFamily: tfStack, fontWeight: tfDef.weight, color: '#0f1419',
         whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', wordBreak: 'break-word', maxWidth: '100%'
       },
@@ -1698,13 +1709,25 @@ class Component extends DCLogic {
     for (var i = 0; i < toks.length; i++) w += toks[i].t === 'emoji' ? this.emAdv(fs) : ctx.measureText(toks[i].v).width;
     return w;
   }
+  // Emoji no export: usa o PNG se ele carregou; senão desenha o próprio caractere
+  // (fonte de emoji do sistema) pra nunca sair um buraco no vídeo/PNG.
+  drawEmojiTok(ctx, u, cx, y, fs) {
+    var im = this._emojiImgs[u];
+    if (im && im.complete && im.naturalWidth) { ctx.drawImage(im, cx, y - fs * 0.86, fs, fs); return; }
+    var ch = this.emojiCharByU(u);
+    if (!ch) return;
+    ctx.save();
+    ctx.font = fs + 'px ' + Component.EMOJI_FB;
+    var w = ctx.measureText(ch).width;
+    ctx.fillText(ch, cx + Math.max(0, (this.emAdv(fs) - w) / 2), y);
+    ctx.restore();
+  }
   drawRich(ctx, str, x, y, fs) {
     var toks = this.richTokens(str), cx = x;
     for (var i = 0; i < toks.length; i++) {
       var tk = toks[i];
       if (tk.t === 'emoji') {
-        var im = this._emojiImgs[tk.u];
-        if (im && im.complete && im.naturalWidth) ctx.drawImage(im, cx, y - fs * 0.86, fs, fs);
+        this.drawEmojiTok(ctx, tk.u, cx, y, fs);
         cx += this.emAdv(fs);
       } else { ctx.fillText(tk.v, cx, y); cx += ctx.measureText(tk.v).width; }
     }
@@ -1766,8 +1789,7 @@ class Component extends DCLogic {
     for (var i = 0; i < toks.length; i++) {
       var tk = toks[i];
       if (tk.t === 'emoji') {
-        var im = this._emojiImgs[tk.u];
-        if (im && im.complete && im.naturalWidth) ctx.drawImage(im, cx, y - fs * 0.86, fs, fs);
+        this.drawEmojiTok(ctx, tk.u, cx, y, fs);
         cx += this.emAdv(fs);
       } else { ctx.fillText(tk.v, cx, y); cx += ctx.measureText(tk.v).width; }
     }
@@ -1778,12 +1800,13 @@ class Component extends DCLogic {
     var F = Component.FONT;
     var tF = this.titleFontStack(), tW = this.titleFontDef().weight;
     var av = 80;
+    var gapBody = 28;                                   // respiro entre o @ / foto e a frase
     var lines = this.titleLines(ctx);
     var cw = this.cardContentW(ctx, lines);            // largura real (encolhe pro conteúdo)
     var L = (this.W - cw) / 2;                          // centralizado, padding igual dos 2 lados
     ctx.font = tW + ' ' + fs + 'px ' + tF;
     var lh = fs * 1.35;
-    var hCard = padV * 2 + av + (lines.length ? 10 + lines.length * lh : 0);
+    var hCard = padV * 2 + av + (lines.length ? gapBody + lines.length * lh : 0);
     var cs = this.state.cardScale || 1, ccx = L + cw / 2, ccy = T + hCard / 2;
     ctx.save();
     ctx.translate(ccx, ccy); ctx.scale(cs, cs); ctx.translate(-ccx, -ccy);
@@ -1850,7 +1873,7 @@ class Component extends DCLogic {
 
     if (lines.length) {
       ctx.fillStyle = '#0f1419'; ctx.font = tW + ' ' + fs + 'px ' + tF;
-      var y = T + padV + av + 10 + fs;
+      var y = T + padV + av + gapBody + fs;
       for (var i = 0; i < lines.length; i++) { this.drawRichLine(ctx, lines[i], L + pad, y, fs); y += lh; }
     }
     ctx.restore();
