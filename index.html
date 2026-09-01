@@ -247,7 +247,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               </div>
               <div style="display:flex;flex-direction:column;gap:1px;padding-top:2px;min-width:0;overflow:hidden">
                 <div style="display:flex;align-items:center;gap:8px">
-                  <span style="font-size:30px;font-weight:700;color:#0f1419;line-height:1.2"><sc-for list="{{ nameSegs }}" as="seg"><sc-if value="{{ seg.isText }}">{{ seg.text }}</sc-if><sc-if value="{{ seg.isEmoji }}"><img src="{{ seg.src }}" alt="{{ seg.char }}" style="{{ emojiInkStyle }}"></sc-if></sc-for></span>
+                  <span style="font-size:30px;font-weight:700;color:#0f1419;line-height:1.2"><sc-for list="{{ nameSegs }}" as="seg"><sc-if value="{{ seg.isText }}">{{ seg.text }}</sc-if><sc-if value="{{ seg.isEmoji }}"><img src="{{ seg.src }}" alt="{{ seg.char }}" data-u="{{ seg.u }}" onError="{{ onEmojiErr }}" decoding="sync" style="{{ emojiInkStyle }}"></sc-if></sc-for></span>
                   <sc-if value="{{ verified }}">
                     <svg viewBox="0 0 24 24" style="width:28px;height:28px;flex:none;display:block">
                       <path d="M12 2.9Q16.56 -2.02 17.35 4.64Q23.93 3.33 20.65 9.19Q26.75 12 20.65 14.81Q23.93 20.67 17.35 19.36Q16.56 26.02 12 21.1Q7.44 26.02 6.65 19.36Q0.07 20.67 3.35 14.81Q-2.75 12 3.35 9.19Q0.07 3.33 6.65 4.64Q7.44 -2.02 12 2.9Z" fill="#1d9bf0"></path>
@@ -259,7 +259,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               </div>
             </div>
             <sc-if value="{{ hasTitle }}" hint-placeholder-val="{{ true }}">
-              <div style="{{ titleStyle }}"><sc-for list="{{ titleSegs }}" as="seg"><sc-if value="{{ seg.isText }}">{{ seg.text }}</sc-if><sc-if value="{{ seg.isEmoji }}"><img src="{{ seg.src }}" alt="{{ seg.char }}" style="{{ emojiInkStyle }}"></sc-if></sc-for></div>
+              <div style="{{ titleStyle }}"><sc-for list="{{ titleSegs }}" as="seg"><sc-if value="{{ seg.isText }}">{{ seg.text }}</sc-if><sc-if value="{{ seg.isEmoji }}"><img src="{{ seg.src }}" alt="{{ seg.char }}" data-u="{{ seg.u }}" onError="{{ onEmojiErr }}" decoding="sync" style="{{ emojiInkStyle }}"></sc-if></sc-for></div>
             </sc-if>
             <div data-handle="cardw" ref="{{ cwRef }}" style="{{ cardHandleStyle }}">
               <div style="{{ dotStyleSm }}"></div>
@@ -391,6 +391,7 @@ class Component extends DCLogic {
     this._selRange = { title: null, name: null };
     this.imgs = {};
     this._emojiImgs = {};
+    this._emojiBad = {};
   }
 
   emojiAll() {
@@ -432,6 +433,14 @@ class Component extends DCLogic {
   }
   emojiUnifiedIn(str) {
     return this.segEmoji(str).filter(function (s) { return s.isEmoji; }).map(function (s) { return s.u; });
+  }
+  // Se o PNG de um emoji falhou (onError), rende ele como o próprio caractere
+  // (fonte do sistema) em vez de deixar o <img> quebrado.
+  markBadEmoji(segs) {
+    var bad = this._emojiBad || {};
+    return segs.map(function (s) {
+      return (s.isEmoji && bad[s.u]) ? { k: s.k, isText: true, text: s.char } : s;
+    });
   }
   preloadEmoji(us) {
     var self = this;
@@ -1091,9 +1100,15 @@ class Component extends DCLogic {
     return {
       title: st.title, hasTitle: !!st.title.trim(),
       emojiOn: emojiOn,
-      nameSegs: this.segEmoji(st.profName),
-      titleSegs: this.segEmoji(st.title),
-      emojiInkStyle: { display: 'inline-block', height: '1em', width: '1em', verticalAlign: '-0.16em', margin: '0 .03em' },
+      nameSegs: this.markBadEmoji(this.segEmoji(st.profName)),
+      titleSegs: this.markBadEmoji(this.segEmoji(st.title)),
+      emojiInkStyle: { display: 'inline-block', height: '1em', width: '1em', verticalAlign: '-0.16em', margin: '0 .03em', objectFit: 'contain', flex: 'none' },
+      onEmojiErr: function (e) {
+        var u = e && e.target && e.target.getAttribute('data-u');
+        if (!u || self._emojiBad[u]) return;
+        self._emojiBad[u] = true;
+        self.setState({ _ee: (self.state._ee || 0) + 1 });
+      },
       emojiOpenTitle: emojiOn && st.emojiOpen && st.emojiFor === 'title',
       emojiOpenName: emojiOn && st.emojiOpen && st.emojiFor === 'name',
       emojiTitleBtnStyle: this.emojiTrigStyle(st.emojiOpen && st.emojiFor === 'title'),
@@ -1420,6 +1435,7 @@ class Component extends DCLogic {
       onTitle: function (e) {
         self.setState({ title: e.target.value });
         self.rememberSel('title', e.target);
+        self.preloadEmoji(self.emojiUnifiedIn(e.target.value));
         clearTimeout(self._stt); self._stt = setTimeout(function () { self.save(); }, 400);
       },
       onTitleSel: function (e) { self.rememberSel('title', e.target); },
