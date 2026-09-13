@@ -47,10 +47,20 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <sc-for list="{{ emojiCats }}" as="ec"><button type="button" onClick="{{ ec.onClick }}" style="{{ ec.style }}">{{ ec.g }}</button></sc-for>
           </div>
           <div style="{{ emojiGridStyle }}">
-            <sc-for list="{{ emojiItems }}" as="em"><button type="button" title="{{ em.n }}" onClick="{{ em.onClick }}" style="{{ emojiCellStyle }}" style-hover="background:#2c2c3b"><img src="{{ em.src }}" alt="{{ em.c }}" style="{{ emojiCellImgStyle }}"></button></sc-for>
+            <sc-for list="{{ emojiItems }}" as="em"><button type="button" title="{{ em.n }}" onClick="{{ em.onClick }}" style="{{ emojiCellStyle }}" style-hover="background:#2c2c3b"><img src="{{ em.src }}" alt="{{ em.c }}" data-u="{{ em.u }}" onError="{{ onEmojiErr }}" style="{{ emojiCellImgStyle }}"></button></sc-for>
           </div>
         </div>
         </sc-if>
+        <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;font-weight:600;color:#a3a3b2;flex:none">Tamanho do nome</span>
+          <input type="range" min="16" max="44" step="1" value="{{ nameFsVal }}" onChange="{{ onNameFs }}" style="flex:1;accent-color:#5b8cff">
+          <span style="font-size:12px;color:#ececf1;font-variant-numeric:tabular-nums;flex:none;width:30px;text-align:right">{{ nameFsVal }}</span>
+        </div>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;font-weight:600;color:#a3a3b2;flex:none">Tamanho do @</span>
+          <input type="range" min="16" max="44" step="1" value="{{ handleFsVal }}" onChange="{{ onHandleFs }}" style="flex:1;accent-color:#5b8cff">
+          <span style="font-size:12px;color:#ececf1;font-variant-numeric:tabular-nums;flex:none;width:30px;text-align:right">{{ handleFsVal }}</span>
+        </div>
         <button onClick="{{ toggleVerified }}" style="{{ verifiedBtnStyle }}">{{ verifiedLabel }}</button>
       </div>
       </sc-if>
@@ -69,18 +79,37 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <sc-for list="{{ emojiCats }}" as="ec"><button type="button" onClick="{{ ec.onClick }}" style="{{ ec.style }}">{{ ec.g }}</button></sc-for>
           </div>
           <div style="{{ emojiGridStyle }}">
-            <sc-for list="{{ emojiItems }}" as="em"><button type="button" title="{{ em.n }}" onClick="{{ em.onClick }}" style="{{ emojiCellStyle }}" style-hover="background:#2c2c3b"><img src="{{ em.src }}" alt="{{ em.c }}" style="{{ emojiCellImgStyle }}"></button></sc-for>
+            <sc-for list="{{ emojiItems }}" as="em"><button type="button" title="{{ em.n }}" onClick="{{ em.onClick }}" style="{{ emojiCellStyle }}" style-hover="background:#2c2c3b"><img src="{{ em.src }}" alt="{{ em.c }}" data-u="{{ em.u }}" onError="{{ onEmojiErr }}" style="{{ emojiCellImgStyle }}"></button></sc-for>
           </div>
         </div>
         </sc-if>
         <label style="display:block;font-size:11px;font-weight:600;color:#a3a3b2;margin:12px 0 0">Fonte da frase</label>
         <select value="{{ titleFont }}" onChange="{{ onTitleFont }}" style="{{ titleFontSelStyle }}"><sc-for list="{{ titleFontGroups }}" as="g"><optgroup label="{{ g.label }}"><sc-for list="{{ g.opts }}" as="o"><option value="{{ o.value }}" style="{{ o.style }}">{{ o.label }}</option></sc-for></optgroup></sc-for></select>
+        <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;font-weight:600;color:#a3a3b2;flex:none">Tamanho da frase</span>
+          <input type="range" min="22" max="64" step="1" value="{{ titleFsVal }}" onChange="{{ onTitleFsVal }}" style="flex:1;accent-color:#a878ff">
+          <span style="font-size:12px;color:#ececf1;font-variant-numeric:tabular-nums;flex:none;width:30px;text-align:right">{{ titleFsVal }}</span>
+        </div>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;font-weight:600;color:#a3a3b2;flex:none">Sombra do card</span>
+          <input type="range" min="0" max="70" step="2" value="{{ cardShadowOpacityPct }}" onChange="{{ onCardShadowOpacity }}" style="flex:1;accent-color:#3fc9c0">
+          <span style="font-size:12px;color:#ececf1;font-variant-numeric:tabular-nums;flex:none;width:34px;text-align:right">{{ cardShadowOpacityLabel }}</span>
+        </div>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;font-weight:600;color:#a3a3b2;flex:none">Desfoque</span>
+          <input type="range" min="0" max="45" step="1" value="{{ cardShadowBlur }}" onChange="{{ onCardShadowBlur }}" style="flex:1;accent-color:#3fc9c0">
+          <span style="font-size:12px;color:#ececf1;font-variant-numeric:tabular-nums;flex:none;width:34px;text-align:right">{{ cardShadowBlur }}</span>
+        </div>
       </div>
       </sc-if>
 
       <sc-if value="{{ showMidia }}">
       <div style="{{ pnlMidia }}">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#5fd6ce"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="#3fc9c0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3.5" width="12" height="9" rx="2"></rect><circle cx="5.6" cy="7" r="1.2"></circle><path d="M2.5 11l3-2.6 2.5 2.2 3.2-3 2.3 2"></path></svg>Mídia</div>
+        <div style="display:flex;gap:6px;margin-bottom:8px">
+          <button onClick="{{ setFormatReels }}" style="{{ formatReelsStyle }}">Reels 9:16</button>
+          <button onClick="{{ setFormatPost }}" style="{{ formatPostStyle }}">Post 1080x1440</button>
+        </div>
         <div style="display:flex;gap:6px;margin-bottom:10px">
           <button onClick="{{ setPhotos1 }}" style="{{ photos1TabStyle }}">1 foto em cima</button>
           <button onClick="{{ setPhotos2 }}" style="{{ photos2TabStyle }}">2 fotos</button>
@@ -91,7 +120,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <sc-if value="{{ twoPhotos }}">
           <button onClick="{{ pick2 }}" style="padding:11px 13px;border-radius:11px;border:1px solid #33334a;background:#22222e;color:#ececf1;font-size:13px;text-align:left;cursor:pointer" style-hover="background:#2c2c3b">Trocar Foto 2</button>
           </sc-if>
-          <button onClick="{{ pickVideo }}" style="padding:11px 13px;border-radius:11px;border:1px solid #33334a;background:#22222e;color:#ececf1;font-size:13px;text-align:left;cursor:pointer" style-hover="background:#2c2c3b">Trocar Vídeo</button>
+          <button onClick="{{ pickBottomMedia }}" style="padding:11px 13px;border-radius:11px;border:1px solid #33334a;background:#22222e;color:#ececf1;font-size:13px;text-align:left;cursor:pointer" style-hover="background:#2c2c3b">{{ bottomBtnLabel }}</button>
         </div>
       </div>
       </sc-if>
@@ -104,7 +133,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <sc-if value="{{ twoPhotos }}">
           <button onClick="{{ tgt2 }}" style="{{ tab2Style }}">Foto 2</button>
           </sc-if>
-          <button onClick="{{ tgtV }}" style="{{ tabVStyle }}">Vídeo</button>
+          <button onClick="{{ tgtV }}" style="{{ tabVStyle }}">{{ bottomZoomLabel }}</button>
         </div>
         <div style="display:flex;align-items:center;gap:10px">
           <button onClick="{{ zoomOut }}" style="{{ zoomBtnStyle }}">−</button>
@@ -221,8 +250,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           </div>
 
           <div data-handle="video" ref="{{ vRef }}" style="{{ videoAreaStyle }}">
-            <sc-if value="{{ hasVideo }}">
+            <sc-if value="{{ showBottomVideo }}">
               <video ref="{{ vidRef }}" autoPlay="{{ true }}" loop="{{ true }}" muted="{{ true }}" playsInline="{{ true }}" style="{{ vidStyle }}"></video>
+            </sc-if>
+            <sc-if value="{{ showBottomPhoto }}">
+              <img ref="{{ pbEl }}" style="{{ vidStyle }}" alt="">
             </sc-if>
             <sc-if value="{{ showWmImg }}">
               <img data-handle="wm" ref="{{ wmEl }}" style="{{ wmStyle }}" alt="">
@@ -230,8 +262,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <sc-if value="{{ showWmTxt }}">
               <div data-handle="wm" ref="{{ wmTxtEl }}" style="{{ wmTextStyle }}">{{ wmText }}</div>
             </sc-if>
-            <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
-              <div onClick="{{ pickVideo }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(90% 60% at 82% 88%,rgba(240,114,182,.28),transparent 62%),repeating-linear-gradient(122deg,transparent 0 54px,rgba(255,255,255,.055) 54px 57px),radial-gradient(135% 100% at 28% 22%,#6c3c88 0%,#41265f 46%,#2c2047 100%);color:#d5c9f7;font-size:64px;font-weight:700;letter-spacing:.02em;cursor:pointer;text-shadow:0 2px 20px rgba(0,0,0,.4)">VÍDEO</div>
+            <sc-if value="{{ noBottomMedia }}" hint-placeholder-val="{{ true }}">
+              <div onClick="{{ pickBottomMedia }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(90% 60% at 82% 88%,rgba(240,114,182,.28),transparent 62%),repeating-linear-gradient(122deg,transparent 0 54px,rgba(255,255,255,.055) 54px 57px),radial-gradient(135% 100% at 28% 22%,#6c3c88 0%,#41265f 46%,#2c2047 100%);color:#d5c9f7;font-size:64px;font-weight:700;letter-spacing:.02em;cursor:pointer;text-shadow:0 2px 20px rgba(0,0,0,.4)">{{ bottomPickLabel }}</div>
             </sc-if>
           </div>
 
@@ -247,7 +279,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               </div>
               <div style="display:flex;flex-direction:column;gap:1px;padding-top:2px;min-width:0;overflow:hidden">
                 <div style="display:flex;align-items:center;gap:8px">
-                  <span style="font-size:30px;font-weight:700;color:#0f1419;line-height:1.2"><sc-for list="{{ nameSegs }}" as="seg"><sc-if value="{{ seg.isText }}">{{ seg.text }}</sc-if><sc-if value="{{ seg.isEmoji }}"><img src="{{ seg.src }}" alt="{{ seg.char }}" data-u="{{ seg.u }}" onError="{{ onEmojiErr }}" decoding="sync" style="{{ emojiInkStyle }}"></sc-if></sc-for></span>
+                  <span style="{{ nameTextStyle }}"><sc-for list="{{ nameSegs }}" as="seg"><sc-if value="{{ seg.isText }}">{{ seg.text }}</sc-if><sc-if value="{{ seg.isEmoji }}"><img src="{{ seg.src }}" alt="{{ seg.char }}" data-u="{{ seg.u }}" onError="{{ onEmojiErr }}" decoding="sync" style="{{ emojiInkStyle }}"></sc-if></sc-for></span>
                   <sc-if value="{{ verified }}">
                     <svg viewBox="0 0 24 24" style="width:28px;height:28px;flex:none;display:block">
                       <path d="M12 2.9Q16.56 -2.02 17.35 4.64Q23.93 3.33 20.65 9.19Q26.75 12 20.65 14.81Q23.93 20.67 17.35 19.36Q16.56 26.02 12 21.1Q7.44 26.02 6.65 19.36Q0.07 20.67 3.35 14.81Q-2.75 12 3.35 9.19Q0.07 3.33 6.65 4.64Q7.44 -2.02 12 2.9Z" fill="#1d9bf0"></path>
@@ -255,7 +287,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
                     </svg>
                   </sc-if>
                 </div>
-                <span style="font-size:30px;font-weight:400;font-synthesis:none;color:#536471;line-height:1.2">{{ profHandle }}</span>
+                <span style="{{ handleTextStyle }}">{{ profHandle }}</span>
               </div>
             </div>
             <sc-if value="{{ hasTitle }}" hint-placeholder-val="{{ true }}">
@@ -280,6 +312,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <input ref="{{ f1Ref }}" type="file" accept="image/*" onChange="{{ onFile1 }}" style="display:none">
   <input ref="{{ f2Ref }}" type="file" accept="image/*" onChange="{{ onFile2 }}" style="display:none">
   <input ref="{{ fvRef }}" type="file" accept="video/*" onChange="{{ onFileV }}" style="display:none">
+  <input ref="{{ fbRef }}" type="file" accept="image/*" onChange="{{ onFileBottom }}" style="display:none">
   <input ref="{{ flRef }}" type="file" accept="image/*" onChange="{{ onFileLogo }}" style="display:none">
   <input ref="{{ fwRef }}" type="file" accept="image/*" onChange="{{ onFileWm }}" style="display:none">
   <input ref="{{ fcRef }}" type="file" accept="image/*" onChange="{{ onFileCompany }}" style="display:none">
@@ -289,6 +322,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 class Component extends DCLogic {
   static FONT = '"Chirp","TwitterChirp","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif';
   static EMOJI_FB = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+  static EMOJI_CDN = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@15.1.2/img/apple/64/';
 
   // Fontes disponíveis para o texto da frase. Cada arquivo está embutido no
   // <style> do topo como @font-face (base64). Para adicionar outra:
@@ -323,9 +357,10 @@ class Component extends DCLogic {
 
   constructor(props) {
     super(props);
-    this.W = 1080; this.H = 1920; this.KEY = 'editor-noticia-v1';
+    this.KEY = 'editor-noticia-v1';
     var saved = {};
     try { saved = JSON.parse(localStorage.getItem(this.KEY) || '{}') || {}; } catch (e) { saved = {}; }
+    this.W = 1080; this.H = saved.outputFormat === 'post' ? 1440 : 1920;
     if (saved.logo || saved.wm || saved.company) {
       // migração: versões antigas guardavam as imagens dentro do JSON (estourava a cota)
       var names = ['logo', 'wm', 'company'], moved = 0, kept = 0;
@@ -359,6 +394,11 @@ class Component extends DCLogic {
       photoPct: typeof saved.photoPct === 'number' ? saved.photoPct : null,
       cardWidth: typeof saved.cardWidth === 'number' ? saved.cardWidth : null,
       cardScale: typeof saved.cardScale === 'number' ? saved.cardScale : 1,
+      titleFsOverride: typeof saved.titleFsOverride === 'number' ? saved.titleFsOverride : null,
+      nameFsOverride: typeof saved.nameFsOverride === 'number' ? saved.nameFsOverride : null,
+      handleFsOverride: typeof saved.handleFsOverride === 'number' ? saved.handleFsOverride : null,
+      cardShadowOpacity: typeof saved.cardShadowOpacity === 'number' ? saved.cardShadowOpacity : 0.26,
+      cardShadowBlur: typeof saved.cardShadowBlur === 'number' ? saved.cardShadowBlur : 20,
       wm: saved.wm || null,
       wmT: saved.wmT || null,
       wmMode: saved.wmMode || 'off',
@@ -373,8 +413,9 @@ class Component extends DCLogic {
       recording: false, recPct: 0,
       profName: typeof saved.profName === 'string' ? saved.profName : 'Manaus na Depressão',
       profHandle: typeof saved.profHandle === 'string' ? saved.profHandle : '@manausnadepre',
-      img1: null, img2: null, videoSrc: null,
-      nat1: null, nat2: null, natv: null,
+      img1: null, img2: null, videoSrc: null, photoBottom: null,
+      nat1: null, nat2: null, natv: null, natBottom: null,
+      outputFormat: saved.outputFormat === 'post' ? 'post' : 'reels',
       scale: 0.28, narrow: false, landscape: false, vw: 1280,
       activeSection: null, zoom100: false, playing: true,
       emojiOpen: false, emojiFor: 'title', emojiQ: '', emojiCat: 'Rostos'
@@ -382,6 +423,7 @@ class Component extends DCLogic {
     this.stageRef = React.createRef(); this.p1Ref = React.createRef(); this.p2Ref = React.createRef();
     this.vRef = React.createRef(); this.divRef = React.createRef(); this.vidRef = React.createRef();
     this.f1Ref = React.createRef(); this.f2Ref = React.createRef(); this.fvRef = React.createRef(); this.flRef = React.createRef();
+    this.fbRef = React.createRef(); this.pbEl = React.createRef();
     this.vdivRef = React.createRef(); this.cwRef = React.createRef();
     this.i1El = React.createRef(); this.i2El = React.createRef(); this.logoEl = React.createRef();
     this.fwRef = React.createRef(); this.fcRef = React.createRef();
@@ -407,6 +449,7 @@ class Component extends DCLogic {
     }
     return this._emByChar;
   }
+  emojiCdnSrc(u) { return Component.EMOJI_CDN + u + '.png'; }
   emojiCharByU(u) {
     if (!this._emByU) {
       this._emByU = {};
@@ -459,6 +502,10 @@ class Component extends DCLogic {
       im.crossOrigin = 'anonymous';
       self._emojiImgs[u] = im;
       im.onload = function () { self.setState({ _et: (self.state._et || 0) + 1 }); };
+      im.onerror = function () {
+        if (im._cdn) return;
+        im._cdn = 1; im.src = self.emojiCdnSrc(u);
+      };
       im.src = './emoji/' + u + '.png';
     });
   }
@@ -470,10 +517,19 @@ class Component extends DCLogic {
       var im = self._emojiImgs[u];
       if (im && im.complete && im.naturalWidth) return;
       pend.push(new Promise(function (res) {
+        var done = false;
+        var finish = function () { if (done) return; done = true; res(); };
         var x = new Image();
         x.crossOrigin = 'anonymous';
-        x.onload = x.onerror = function () { self._emojiImgs[u] = x; res(); };
+        x.onload = function () { self._emojiImgs[u] = x; finish(); };
+        x.onerror = function () {
+          if (!x._cdn) { x._cdn = 1; x.src = self.emojiCdnSrc(u); return; }
+          self._emojiImgs[u] = x; finish();
+        };
         x.src = './emoji/' + u + '.png';
+        // rede lenta ou CDN bloqueado (firewall/adblock) nao pode travar o export:
+        // depois de 2.5s desiste e deixa o drawEmojiTok cair no fallback de glifo.
+        setTimeout(finish, 2500);
       }));
     });
     if (!pend.length) { cb(); return; }
@@ -588,7 +644,13 @@ class Component extends DCLogic {
     if (typeof w !== 'number') { var p = this.props.larguraCaixa; w = typeof p === 'number' ? p : 800; }
     return w;
   }
-  titleFs() { var p = this.props.tamanhoTitulo; return typeof p === 'number' ? p : 40; }
+  titleFs() {
+    var o = this.state.titleFsOverride;
+    if (typeof o === 'number') return o;
+    var p = this.props.tamanhoTitulo; return typeof p === 'number' ? p : 40;
+  }
+  nameFs() { var o = this.state.nameFsOverride; return typeof o === 'number' ? o : 30; }
+  handleFs() { var o = this.state.handleFsOverride; return typeof o === 'number' ? o : 30; }
   titleFontDef() {
     var id = this.state.titleFont || 'regular', list = Component.TITLE_FONTS;
     for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
@@ -615,9 +677,10 @@ class Component extends DCLogic {
       for (var j = 0; j < ln.length; j++) lw += ln[j].t === 'emoji' ? this.emAdv(fs) : ctx.measureText(ln[j].v).width;
       if (lw > maxLine) maxLine = lw;
     }
-    ctx.font = 'bold 30px ' + F;
-    var nameW = this.measureRich(ctx, this.state.profName || '', 30);
-    ctx.font = '30px ' + F;
+    var nFs = this.nameFs(), hFs = this.handleFs();
+    ctx.font = 'bold ' + nFs + 'px ' + F;
+    var nameW = this.measureRich(ctx, this.state.profName || '', nFs);
+    ctx.font = hFs + 'px ' + F;
     var handleW = ctx.measureText(this.state.profHandle || '').width;
     var badgeW = this.state.verified ? 38 : 0;
     var headerW = av + 14 + Math.max(nameW + badgeW, handleW);
@@ -639,7 +702,7 @@ class Component extends DCLogic {
     var one = this.state.photoCount === 1;
     if (key === 't1') return { pw: one ? this.W : this.W * s, phh: ph, nat: this.state.nat1 };
     if (key === 't2') return { pw: this.W * (1 - s), phh: ph, nat: this.state.nat2 };
-    return { pw: this.W, phh: this.H - ph, nat: this.state.natv };
+    return { pw: this.W, phh: this.H - ph, nat: this.state.outputFormat === 'post' ? this.state.natBottom : this.state.natv };
   }
   clampT(key, t) {
     var g = this.geo(key);
@@ -881,7 +944,7 @@ class Component extends DCLogic {
     this._sv = setTimeout(function () { self.save(); }, 400);
   }
   syncSrc() {
-    var pairs = [[this.i1El, this.state.img1], [this.i2El, this.state.img2], [this.logoEl, this.state.logo], [this.vidRef, this.state.videoSrc], [this.wmEl, this.state.wm], [this.companyEl, this.state.company]];
+    var pairs = [[this.i1El, this.state.img1], [this.i2El, this.state.img2], [this.logoEl, this.state.logo], [this.vidRef, this.state.videoSrc], [this.pbEl, this.state.photoBottom], [this.wmEl, this.state.wm], [this.companyEl, this.state.company]];
     for (var i = 0; i < pairs.length; i++) {
       var el = pairs[i][0].current, src = pairs[i][1];
       if (el && src && el.getAttribute('src') !== src) el.setAttribute('src', src);
@@ -897,6 +960,8 @@ class Component extends DCLogic {
         split: s.split, photoCount: s.photoCount, t1: s.t1, t2: s.t2, tv: s.tv, title: s.title,
         photoPct: s.photoPct, cardWidth: s.cardWidth, cardScale: s.cardScale, profName: s.profName, profHandle: s.profHandle,
         wmT: s.wmT, wmMode: s.wmMode, wmText: s.wmText, wmOpacity: s.wmOpacity, cardDy: s.cardDy,
+        titleFsOverride: s.titleFsOverride, nameFsOverride: s.nameFsOverride, handleFsOverride: s.handleFsOverride,
+        cardShadowOpacity: s.cardShadowOpacity, cardShadowBlur: s.cardShadowBlur, outputFormat: s.outputFormat,
         verified: s.verified
       }));
     } catch (e) { console.warn('não foi possível salvar os ajustes', e && e.name); }
@@ -929,7 +994,11 @@ class Component extends DCLogic {
     var next = this.clampT(key, { z: patch.z != null ? patch.z : cur.z, x: patch.x != null ? patch.x : cur.x, y: patch.y != null ? patch.y : cur.y });
     var upd = {}; upd[key] = next; this.setState(upd);
   }
-  hasMedia(key) { return key === 't1' ? !!this.state.img1 : key === 't2' ? !!this.state.img2 : !!this.state.videoSrc; }
+  hasMedia(key) {
+    if (key === 't1') return !!this.state.img1;
+    if (key === 't2') return !!this.state.img2;
+    return this.state.outputFormat === 'post' ? !!this.state.photoBottom : !!this.state.videoSrc;
+  }
 
   bindPan(el, key) {
     if (!el) return;
@@ -1115,8 +1184,17 @@ class Component extends DCLogic {
       titleSegs: this.markBadEmoji(this.segEmoji(st.title)),
       emojiInkStyle: { display: 'inline-block', height: '1em', width: '1em', verticalAlign: '-0.16em', margin: '0 .03em', objectFit: 'contain', flex: 'none' },
       onEmojiErr: function (e) {
-        var u = e && e.target && e.target.getAttribute('data-u');
-        if (!u || self._emojiBad[u]) return;
+        var img = e && e.target;
+        var u = img && img.getAttribute('data-u');
+        if (!u) return;
+        // 1ª falha (PNG local ausente, ex.: GitHub Pages sem a pasta emoji/): tenta o CDN.
+        if (!img.getAttribute('data-cdn')) {
+          img.setAttribute('data-cdn', '1');
+          img.src = self.emojiCdnSrc(u);
+          return;
+        }
+        // CDN também falhou: renderiza o caractere do emoji (fonte do sistema).
+        if (self._emojiBad[u]) return;
         self._emojiBad[u] = true;
         self.setState({ _ee: (self.state._ee || 0) + 1 });
       },
@@ -1133,7 +1211,7 @@ class Component extends DCLogic {
           onClick: function () { self.setState({ emojiCat: g, emojiQ: '' }); } };
       }),
       emojiItems: emItems.map(function (e) {
-        return { k: e.u, c: e.c, n: e.n, src: './emoji/' + e.u + '.png',
+        return { k: e.u, c: e.c, n: e.n, u: e.u, src: './emoji/' + e.u + '.png',
           onClick: function () { self.insertEmoji(e.c); } };
       }),
       emojiPanelStyle: { marginTop: '10px', border: '1px solid #a878ff3d', borderRadius: '12px', background: '#1c1c28', padding: '9px' },
@@ -1145,6 +1223,25 @@ class Component extends DCLogic {
       hasImg1: !!st.img1, hasImg2: !!st.img2, hasVideo: !!st.videoSrc, hasLogo: !!st.logo,
       noImg1: !st.img1, noImg2: !st.img2, noVideo: !st.videoSrc, noLogo: !st.logo,
       img1: st.img1, img2: st.img2, videoSrc: st.videoSrc, logo: st.logo,
+      isPost: st.outputFormat === 'post',
+      showBottomVideo: st.outputFormat !== 'post' && !!st.videoSrc,
+      showBottomPhoto: st.outputFormat === 'post' && !!st.photoBottom,
+      noBottomMedia: st.outputFormat === 'post' ? !st.photoBottom : !st.videoSrc,
+      bottomPickLabel: st.outputFormat === 'post' ? 'FOTO' : 'VÍDEO',
+      pickBottomMedia: function () { if (st.outputFormat === 'post') { if (self.fbRef.current) self.fbRef.current.click(); } else if (self.fvRef.current) self.fvRef.current.click(); },
+      bottomBtnLabel: st.outputFormat === 'post' ? 'Trocar foto de baixo' : 'Trocar Vídeo',
+      formatReelsStyle: this.tabStyle(st.outputFormat !== 'post', '#3fc9c0'),
+      formatPostStyle: this.tabStyle(st.outputFormat === 'post', '#3fc9c0'),
+      setFormatReels: function () {
+        if (st.outputFormat === 'reels') return;
+        self.W = 1080; self.H = 1920;
+        self.setState({ outputFormat: 'reels' }, function () { self.save(); });
+      },
+      setFormatPost: function () {
+        if (st.outputFormat === 'post') return;
+        self.W = 1080; self.H = 1440;
+        self.setState({ outputFormat: 'post' }, function () { self.save(); });
+      },
       twoPhotos: !one,
       photo1Label: one ? 'Trocar foto' : 'Trocar Foto 1',
       photos1TabStyle: this.tabStyle(one, '#3fc9c0'),
@@ -1155,6 +1252,7 @@ class Component extends DCLogic {
       setPhotos2: function () { self.setState({ photoCount: 2 }, function () { self.save(); }); },
       stageRef: this.stageRef, p1Ref: this.p1Ref, p2Ref: this.p2Ref, vRef: this.vRef, divRef: this.divRef,
       vidRef: this.vidRef, f1Ref: this.f1Ref, f2Ref: this.f2Ref, fvRef: this.fvRef, flRef: this.flRef,
+      fbRef: this.fbRef, pbEl: this.pbEl,
       vdivRef: this.vdivRef, cwRef: this.cwRef, fwRef: this.fwRef, fcRef: this.fcRef,
       i1El: this.i1El, i2El: this.i2El, logoEl: this.logoEl, wmEl: this.wmEl, companyEl: this.companyEl,
       hasWm: !!st.wm, hasCompany: !!st.company, noCompany: !st.company,
@@ -1164,6 +1262,7 @@ class Component extends DCLogic {
       tab1Style: this.tabStyle(st.zoomTarget === 't1', '#f0a94a'),
       tab2Style: this.tabStyle(st.zoomTarget === 't2', '#f0a94a'),
       tabVStyle: this.tabStyle(st.zoomTarget === 'tv', '#f0a94a'),
+      bottomZoomLabel: st.outputFormat === 'post' ? 'Foto de baixo' : 'Vídeo',
       zoomBtnStyle: {
         flex: 'none', width: st.mode === 'desktop' ? '36px' : '44px', height: st.mode === 'desktop' ? '36px' : '44px',
         borderRadius: '11px', border: '1px solid #33334a', background: '#22222e', color: '#ececf1',
@@ -1204,6 +1303,32 @@ class Component extends DCLogic {
       onWmOpacity: function (e) {
         self.setState({ wmOpacity: Number(e.target.value) / 100 });
         clearTimeout(self._swo); self._swo = setTimeout(function () { self.save(); }, 400);
+      },
+      nameFsVal: this.nameFs(),
+      onNameFs: function (e) {
+        self.setState({ nameFsOverride: Number(e.target.value) });
+        clearTimeout(self._snf); self._snf = setTimeout(function () { self.save(); }, 400);
+      },
+      handleFsVal: this.handleFs(),
+      onHandleFs: function (e) {
+        self.setState({ handleFsOverride: Number(e.target.value) });
+        clearTimeout(self._shf); self._shf = setTimeout(function () { self.save(); }, 400);
+      },
+      titleFsVal: this.titleFs(),
+      onTitleFsVal: function (e) {
+        self.setState({ titleFsOverride: Number(e.target.value) });
+        clearTimeout(self._stf); self._stf = setTimeout(function () { self.save(); }, 400);
+      },
+      cardShadowOpacityPct: Math.round(st.cardShadowOpacity * 100),
+      cardShadowOpacityLabel: Math.round(st.cardShadowOpacity * 100) + '%',
+      onCardShadowOpacity: function (e) {
+        self.setState({ cardShadowOpacity: Number(e.target.value) / 100 });
+        clearTimeout(self._sso); self._sso = setTimeout(function () { self.save(); }, 400);
+      },
+      cardShadowBlur: st.cardShadowBlur,
+      onCardShadowBlur: function (e) {
+        self.setState({ cardShadowBlur: Number(e.target.value) });
+        clearTimeout(self._ssb); self._ssb = setTimeout(function () { self.save(); }, 400);
       },
       wmTextStyle: (function () {
         var g = self.wmGeo();
@@ -1406,20 +1531,22 @@ class Component extends DCLogic {
       },
       dotStyle: { width: dot + 'px', height: dot + 'px', borderRadius: '50%', background: '#1d9bf0', boxShadow: '0 0 0 ' + Math.round(dot * 0.12) + 'px rgba(29,155,240,.25)' },
       dotStyleSm: { width: (dot * 0.7) + 'px', height: (dot * 0.7) + 'px', borderRadius: '50%', background: '#1d9bf0', boxShadow: '0 0 0 ' + Math.round(dot * 0.1) + 'px rgba(29,155,240,.22)' },
-      videoAreaStyle: { position: 'absolute', left: 0, top: ph + 'px', width: W + 'px', height: (H - ph) + 'px', overflow: 'hidden', cursor: st.videoSrc ? 'grab' : 'pointer', touchAction: 'none' },
-      vidStyle: this.mediaStyle('tv', st.videoSrc),
+      videoAreaStyle: { position: 'absolute', left: 0, top: ph + 'px', width: W + 'px', height: (H - ph) + 'px', overflow: 'hidden', cursor: this.hasMedia('tv') ? 'grab' : 'pointer', touchAction: 'none' },
+      vidStyle: this.mediaStyle('tv', st.outputFormat === 'post' ? st.photoBottom : st.videoSrc),
       cardStyle: {
         position: 'absolute', left: ((W - boxW) / 2) + 'px', top: (ph - 170 + st.cardDy) + 'px', width: boxW + 'px',
-        background: '#fff', borderRadius: '0', padding: '14px 20px', zIndex: 4, cursor: 'grab', touchAction: 'none',
+        background: '#fff', borderRadius: '0', padding: '10px 20px', zIndex: 4, cursor: 'grab', touchAction: 'none',
         fontFamily: Component.FONT, WebkitFontSmoothing: 'antialiased',
         transform: 'scale(' + (st.cardScale || 1) + ')', transformOrigin: 'center center',
-        boxShadow: '0 2px 10px rgba(0,0,0,.18)'
+        boxShadow: '0 ' + Math.round(st.cardShadowBlur * 0.3) + 'px ' + st.cardShadowBlur + 'px rgba(0,0,0,' + st.cardShadowOpacity + ')'
       },
       titleStyle: {
-        marginTop: '28px', fontSize: fs + 'px', lineHeight: 1.35,
+        marginTop: '20px', fontSize: fs + 'px', lineHeight: 1.22,
         fontFamily: tfStack, fontWeight: tfDef.weight, color: '#0f1419',
         whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', wordBreak: 'break-word', maxWidth: '100%'
       },
+      nameTextStyle: { fontSize: this.nameFs() + 'px', fontWeight: 700, color: '#0f1419', lineHeight: 1.2 },
+      handleTextStyle: { fontSize: this.handleFs() + 'px', fontWeight: 400, fontSynthesis: 'none', color: '#536471', lineHeight: 1.2 },
       titleFont: st.titleFont || 'regular',
       titleFontGroups: (function () {
         var groups = [], byName = {};
@@ -1452,7 +1579,6 @@ class Component extends DCLogic {
       onTitleSel: function (e) { self.rememberSel('title', e.target); },
       pick1: function () { if (self.f1Ref.current) self.f1Ref.current.click(); },
       pick2: function () { if (self.f2Ref.current) self.f2Ref.current.click(); },
-      pickVideo: function () { if (self.fvRef.current) self.fvRef.current.click(); },
       pickLogo: function () { if (self.flRef.current) self.flRef.current.click(); },
       onFile1: function (e) {
         self.readFile(e.target, function (d) {
@@ -1478,6 +1604,14 @@ class Component extends DCLogic {
           });
         });
       },
+      onFileBottom: function (e) {
+        self.readFile(e.target, function (d) {
+          self.loadImage(d, function (im) {
+            self.imgs.pb = im;
+            self.setState({ photoBottom: d, natBottom: { w: im.naturalWidth, h: im.naturalHeight }, tv: { z: 1, x: 0, y: 0 } });
+          });
+        });
+      },
       onFileV: function (e) {
         var f = e.target.files && e.target.files[0]; if (!f) return;
         var url = URL.createObjectURL(f); e.target.value = '';
@@ -1493,11 +1627,11 @@ class Component extends DCLogic {
       clearAll: function () {
         self.imgs = {};
         self.setState({
-          img1: null, img2: null, videoSrc: null, nat1: null, nat2: null, natv: null,
+          img1: null, img2: null, videoSrc: null, photoBottom: null, nat1: null, nat2: null, natv: null, natBottom: null,
           title: '', split: 0.5, t1: { z: 1, x: 0, y: 0 }, t2: { z: 1, x: 0, y: 0 }, tv: { z: 1, x: 0, y: 0 }
         }, function () { self.save(); });
       },
-      exportPng: function () { if (st.videoSrc) self.exportVideo(); else self.exportImage(true); },
+      exportPng: function () { if (st.outputFormat !== 'post' && st.videoSrc) self.exportVideo(); else self.exportImage(true); },
       exportOverlay: function () { self.exportImage(false); },
       exportFrame: function () { self.exportImage(true); },
       stopRec: function () { if (self._recStop) self._recStop(); },
@@ -1651,7 +1785,8 @@ class Component extends DCLogic {
     var onePhoto = this.state.photoCount === 1;
     drawIn(this.imgs.i1, 't1', 0, 0, onePhoto ? W : W * s, ph);
     if (!onePhoto) drawIn(this.imgs.i2, 't2', W * s, 0, W * (1 - s), ph);
-    if (withVideo) drawIn(this.vidRef.current, 'tv', 0, ph, W, H - ph);
+    if (this.state.outputFormat === 'post') drawIn(this.imgs.pb, 'tv', 0, ph, W, H - ph);
+    else if (withVideo) drawIn(this.vidRef.current, 'tv', 0, ph, W, H - ph);
     var mode = this.state.wmMode, wtxt = (this.state.wmText || '').trim();
     if (mode !== 'off' && (mode === 'text' ? wtxt : this.imgs.wm)) {
       var g = this.wmGeo();
@@ -1796,22 +1931,23 @@ class Component extends DCLogic {
   }
 
   drawCard(ctx, ph) {
-    var fs = this.titleFs(), pad = 20, padV = 14, T = ph - 170 + this.state.cardDy;
+    var fs = this.titleFs(), pad = 20, padV = 10, T = ph - 170 + this.state.cardDy;
     var F = Component.FONT;
     var tF = this.titleFontStack(), tW = this.titleFontDef().weight;
     var av = 80;
-    var gapBody = 28;                                   // respiro entre o @ / foto e a frase
+    var gapBody = 20;                                   // respiro entre o @ / foto e a frase
     var lines = this.titleLines(ctx);
     var cw = this.cardContentW(ctx, lines);            // largura real (encolhe pro conteúdo)
     var L = (this.W - cw) / 2;                          // centralizado, padding igual dos 2 lados
     ctx.font = tW + ' ' + fs + 'px ' + tF;
-    var lh = fs * 1.35;
+    var lh = fs * 1.22;
     var hCard = padV * 2 + av + (lines.length ? gapBody + lines.length * lh : 0);
     var cs = this.state.cardScale || 1, ccx = L + cw / 2, ccy = T + hCard / 2;
     ctx.save();
     ctx.translate(ccx, ccy); ctx.scale(cs, cs); ctx.translate(-ccx, -ccy);
     ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,.18)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 2;
+    var sBlur = this.state.cardShadowBlur, sOp = this.state.cardShadowOpacity;
+    ctx.shadowColor = 'rgba(0,0,0,' + sOp + ')'; ctx.shadowBlur = sBlur; ctx.shadowOffsetY = Math.round(sBlur * 0.3);
     ctx.fillStyle = '#fff';
     var r = 0;
     ctx.beginPath();
@@ -1835,12 +1971,13 @@ class Component extends DCLogic {
     ctx.restore();
 
     var tx = ax + av + 14;
+    var nFs = this.nameFs(), hFs = this.handleFs();
     ctx.textBaseline = 'alphabetic';
-    ctx.fillStyle = '#0f1419'; ctx.font = 'bold 30px ' + F;
+    ctx.fillStyle = '#0f1419'; ctx.font = 'bold ' + nFs + 'px ' + F;
     var nameY = ay + 36;
     var nm = this.state.profName || '';
-    this.drawRich(ctx, nm, tx, nameY, 30);
-    var nw = this.measureRich(ctx, nm, 30);
+    this.drawRich(ctx, nm, tx, nameY, nFs);
+    var nw = this.measureRich(ctx, nm, nFs);
     if (this.state.verified) {
       var bx = tx + nw + 10 + 14, by = nameY - 9;
       var R = 14, n = 10, ri = R * 9.1 / 11.7, ro = R;
@@ -1869,7 +2006,7 @@ class Component extends DCLogic {
       ctx.closePath(); ctx.fill();
       ctx.restore();
     }
-    ctx.fillStyle = '#536471'; ctx.font = '30px ' + F; ctx.fillText(this.state.profHandle || '', tx, ay + 74);
+    ctx.fillStyle = '#536471'; ctx.font = hFs + 'px ' + F; ctx.fillText(this.state.profHandle || '', tx, ay + 74);
 
     if (lines.length) {
       ctx.fillStyle = '#0f1419'; ctx.font = tW + ' ' + fs + 'px ' + tF;
