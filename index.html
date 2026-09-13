@@ -1541,7 +1541,7 @@ class Component extends DCLogic {
         boxShadow: '0 ' + Math.round(st.cardShadowBlur * 0.3) + 'px ' + st.cardShadowBlur + 'px rgba(0,0,0,' + st.cardShadowOpacity + ')'
       },
       titleStyle: {
-        marginTop: '20px', fontSize: fs + 'px', lineHeight: 1.22,
+        marginTop: '36px', fontSize: fs + 'px', lineHeight: 1.22,
         fontFamily: tfStack, fontWeight: tfDef.weight, color: '#0f1419',
         whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', wordBreak: 'break-word', maxWidth: '100%'
       },
@@ -1935,7 +1935,7 @@ class Component extends DCLogic {
     var F = Component.FONT;
     var tF = this.titleFontStack(), tW = this.titleFontDef().weight;
     var av = 80;
-    var gapBody = 20;                                   // respiro entre o @ / foto e a frase
+    var gapBody = 36;                                   // respiro entre o @ / foto e a frase
     var lines = this.titleLines(ctx);
     var cw = this.cardContentW(ctx, lines);            // largura real (encolhe pro conteúdo)
     var L = (this.W - cw) / 2;                          // centralizado, padding igual dos 2 lados
